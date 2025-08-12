@@ -1,6 +1,6 @@
-# Claude Code Session Management Commands
+# Claude Code Session Management Commands (Enhanced)
 
-Custom slash commands for Claude Code that provide comprehensive development session tracking and documentation. Based on [Claude Code's custom slash command system](https://docs.anthropic.com/en/docs/claude-code/slash-commands).
+Custom slash commands for Claude Code that provide comprehensive development session tracking and documentation. This is an **enhanced version** with improved interactive workflow and better directory structure. Based on [Claude Code's custom slash command system](https://docs.anthropic.com/en/docs/claude-code/slash-commands).
 
 ## 🎯 Overview
 
@@ -10,8 +10,38 @@ This is a set of custom slash commands for Claude Code that helps developers mai
 - **Tracking Changes**: Monitor git changes, todo items, and implementation details  
 - **Knowledge Transfer**: Enable future sessions to understand past work without re-analyzing the entire codebase
 - **Issue Resolution**: Document problems encountered and their solutions for future reference
+- **Interactive Workflow**: Enhanced session-start behavior that prompts for goals instead of immediately starting work
+- **Flexible Directory Structure**: Uses `sessions/` directory instead of `.claude/sessions/` for simpler project integration
 
 These commands extend Claude Code's built-in functionality with project-specific session management capabilities.
+
+## ✨ What's New in This Enhanced Version
+
+This enhanced version includes several key improvements over the original:
+
+### 🎯 **Interactive Session Creation**
+- **Before**: Sessions would automatically start coding after creation
+- **After**: Session creation now **stops and asks what you'd like to work on**
+- **Why**: Gives you control over the session direction and prevents unwanted automatic implementation
+
+### 📁 **Simplified Directory Structure**
+- **Before**: Used `.claude/sessions/` directory structure
+- **After**: Uses root-level `sessions/` directory
+- **Why**: Easier integration into existing projects and clearer file organization
+
+### 🔧 **Better User Experience**
+- Enhanced command descriptions with clearer instructions
+- Improved error handling and user guidance
+- More intuitive workflow for session management
+
+### 📋 **Session Workflow Improvements**
+The enhanced `/project:session-start` command now:
+1. Creates the session file with proper structure
+2. Updates tracking systems
+3. **Stops and asks: "What would you like to work on in this session?"**
+4. Waits for your input before proceeding
+
+This creates a much more deliberate and controlled development workflow.
 
 ## 🚀 Quick Start
 
@@ -49,6 +79,7 @@ commands/                       # Custom command directory
 
 sessions/                      # Session storage directory
 ├── .current-session          # Tracks the active session filename
+├── README.md                 # Instructions for the sessions directory
 ├── 2025-01-16-1347.md       # Example session file
 └── [YYYY-MM-DD-HHMM-name].md  # Session naming format
 ```
@@ -64,7 +95,7 @@ sessions/                      # Session storage directory
 2. Create the sessions tracking file:
    ```bash
    mkdir -p sessions
-   touch sessions/.current-session
+   echo "# This file tracks the currently active session" > sessions/.current-session
    ```
 
 3. Add to `.gitignore` if you don't want to track sessions:
@@ -177,10 +208,16 @@ Displays help information about the session system.
 
 ## 🔧 Customization
 
-### Adapting for Standard Claude Code Setup
-If you want to use these with Claude Code's standard directory structure:
-1. Copy the `commands` folder to `.claude/commands/` in your project
+### Using with Standard Claude Code Setup
+If you want to adapt these commands for Claude Code's standard directory structure:
+1. Copy the `commands` folder to `.claude/commands/` in your project  
 2. Update paths in command files from `sessions/` to `.claude/sessions/`
+3. However, we recommend using the enhanced `sessions/` structure for better project integration
+
+### Reverting to Original Behavior
+If you prefer the original auto-start behavior:
+1. Remove the "**IMPORTANT**" section from `commands/session-start.md`
+2. The system will immediately start working after creating sessions
 
 ### Creating Your Own Commands
 - Modify command files to change behavior
